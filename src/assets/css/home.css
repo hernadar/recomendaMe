@@ -1,0 +1,11 @@
+
+.explicaciones{
+    width: 60%;
+    font-family: 'TiltNeon';
+}
+@font-face {
+    font-family: 'TiltNeon';
+    src: url('./TiltNeon-Regular-VariableFont_XROT\,YROT.ttf') format('truetype');
+    font-style: normal;
+    font-weight: normal;
+  }

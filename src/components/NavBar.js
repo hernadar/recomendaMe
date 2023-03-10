@@ -26,16 +26,16 @@ const imagenPerfil =
               title={imagenPerfil}
               menuVariant="dark"
             >
-              <NavDropdown.Item href="/user/profile">Mi Perfil</NavDropdown.Item>
+              <NavDropdown.Item href="/users/profile">Mi Perfil</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/user/logout">
+              <NavDropdown.Item href="/users/logout">
                 Logout
               </NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown.Item href="/user/login">
+            <NavDropdown.Item href="/users/login">
                 Iniciar Sesion
             </NavDropdown.Item>
-            <NavDropdown.Item href="/user/register">
+            <NavDropdown.Item href="/users/register">
                 Registrarse
             </NavDropdown.Item>
           </Nav>

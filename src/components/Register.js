@@ -1,13 +1,100 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import {useNavigate} from "react-router-dom"
 
 
 function Register() {
 
-function registrar(e){
-    
-}
+    const [errorMessages, setErrorMessages] = useState({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [users, setUsers] = useState([])
+    useEffect(() => {
 
+        fetch('/api/users')
+            .then(response => response.json())
+            .then(users => {
+                setUsers(users.data)
+            })
+            .catch(function (e) {
+                console.log(e)
+            })
+    }, [])
+    const navigate = useNavigate()
+    const errors = {
+        email: "El usuario ya está registrado",
+        password: "El password no coincide",
+        largopass: "El password tiene que tener al menos ocho caracteres"
+    };
+
+    const handleSubmit = (event) => {
+        //Prevent page reload
+        event.preventDefault();
+
+        var { firstname, lastname, phone, email, password, passwordConfirm, image, privileges } = document.forms[0];
+        // Find user login info
+        const userData = users.find((user) => user.email === email.value);
+
+        if (!userData) {
+                if(password.value===passwordConfirm.value) {
+                    var password=password.value
+                    if(password.length>7){
+                        console.log(privileges.value)
+                        if(privileges.value=="2") {
+                            var privileges_id=2
+                        } else { var privileges_id=1}
+                        var formData=new FormData();
+                        var fileField=image.files[0];
+                        var nombre=firstname.value;
+                        var apellido=lastname.value;
+                        var telefono=phone.value;
+                        var correo=email.value;
+                        var contrasena=password.value
+                    
+                    formData.append('name',nombre);
+                    formData.append('lastname',apellido);
+                    formData.append('phone',telefono);
+                    formData.append('email',correo);
+                    formData.append('password',contrasena);
+                    formData.append('image',fileField);
+                    formData.append('privileges_id',privileges_id);
+                    fetch('/api/users/register',{
+                        method:'POST',
+                        body: formData
+                        })
+                        .then(response => response.json())
+                        .then(respuesta => {
+                            console.log(respuesta)
+                         })
+                        .catch(function (e) {
+                            console.log(e)
+                        })
+
+
+                        setIsSubmitted(true);
+                        navigate("/")}
+                    else{
+                        setErrorMessages({ name: "largopass", message: errors.largopass });
+                    }
+                } else {
+                    // Invalid password Comfirm
+                setErrorMessages({ name: "password", message: errors.password });
+                }
+                
+
+
+               
+            
+            }
+         else {
+            // Usuario ya existente
+            setErrorMessages({ name: "email", message: errors.email });
+        }
+    };
+
+    // Generate JSX code for error message
+    const renderErrorMessage = (name) =>
+        name === errorMessages.name && (
+            <div className="text-danger">{errorMessages.message}</div>
+        );
 
 
     return (
@@ -16,15 +103,15 @@ function registrar(e){
                 <div className="col-md-10">
                     <h2>Formulario de registro de usuario</h2>
 
-                    <form method="POST" action="/user/register" enctype="multipart/form-data">
+                    <form onSubmit={handleSubmit} action="/user/register" >
                         <div className="row">
                             <div className="col-md-6 my-1">
                                 <div className="form-group">
                                     <label><b>Nombre:</b></label>
                                     <input
                                         type="text"
-                                        name="name"
-                                        className="form-control"
+                                        name="firstname"
+                                        className="form-control" required
                                     />
 
                                     <div className="text-danger">
@@ -38,8 +125,8 @@ function registrar(e){
                                     <label><b>Apellido:</b></label>
                                     <input
                                         type="text"
-                                        name="lastName"
-                                        className="form-control"
+                                        name="lastname"
+                                        className="form-control"required
                                     />
 
                                     <div className="text-danger">
@@ -54,7 +141,7 @@ function registrar(e){
                                     <input
                                         type="text"
                                         name="phone"
-                                        className="form-control"
+                                        className="form-control" required
                                     />
 
                                     <div className="text-danger">
@@ -67,13 +154,13 @@ function registrar(e){
                                 <div className="form-group">
                                     <label><b>Correo electrónico:</b></label>
                                     <input
-                                        type="text"
+                                        type="email"
                                         name="email"
-                                        className="form-control"
+                                        className="form-control" required
                                     />
 
                                     <div className="text-danger">
-
+                                        {renderErrorMessage("email")}
                                     </div>
 
                                 </div>
@@ -84,11 +171,11 @@ function registrar(e){
                                     <input
                                         type="password"
                                         name="password"
-                                        className="form-control"
+                                        className="form-control" required
                                     />
 
                                     <div className="text-danger">
-
+                                        {renderErrorMessage("largopass")}
                                     </div>
 
                                 </div>
@@ -99,12 +186,12 @@ function registrar(e){
                                     <input
                                         type="password"
                                         name="passwordConfirm"
-                                        className="form-control"
+                                        className="form-control" required
                                     />
 
                                     <div className="text-danger">
-
-                                    </div>
+                                        {renderErrorMessage("password")}
+                                    </div>  
 
                                 </div>
                             </div>
@@ -113,7 +200,7 @@ function registrar(e){
                                     <label><b>Imagen de perfil:</b></label>
                                     <input
                                         type="file"
-                                        name="avatar"
+                                        name="image"
                                         className="form-control"
                                     />
 
@@ -130,8 +217,8 @@ function registrar(e){
                                     <label className='text-danger'>(Tilde esta casilla SOLO si es una Empresa que recibe recomendaciones)</label>
                                     <input
                                         type="checkbox"
-                                        name="privilege"
-                                        value='2'
+                                        name="privileges"
+                                        value="2"
                                         
                                     />
 
@@ -143,7 +230,7 @@ function registrar(e){
                             </div>
 
                             <div className="col-12 my-3">
-                                <button onClick={registrar} type="submit" className="btn btn-warning">Registrarse</button>
+                                <button type="submit" className="btn btn-warning">Registrarse</button>
                             </div>
                         </div>
                     </form>

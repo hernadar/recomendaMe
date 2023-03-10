@@ -30,16 +30,5 @@ function Home() {
 }
 
 
-{/* <h2>Ahora tus recomendaciones VALEN</h2>
-                            <p>Cuando recomendas, sumas puntos que los podes canjear por productos, servicios o MONETIZARLO</p>
-                       
-                            <h3 className='mt-2'> Solo tenés que seguir estos simples pasos:</h3>
-                            <ol className='explicaciones mx-auto'>
-                                <li>Te creas un usuario en nuestro sitio</li>
-                                <li>Elejí la Empresa que queres recomendar</li>
-                                <li>Crea tu recomendación</li>
-                                <li>Y listo... ya se la podes enviar a quien vos quieras !!!</li>
-                            </ol>
-                            </div>
-                <div /> */}
+
 export default Home

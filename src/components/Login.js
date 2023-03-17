@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom"
-import Home from './Home';
+
 import bcrypt from "bcryptjs-react";
 
 function Login() {
@@ -31,13 +31,19 @@ function Login() {
 
         var { email, password } = document.forms[0];
         // Find user login info
-        const userData = users.find((user) => user.email === email.value);
-
-        if (userData) {
-            if (bcrypt.compareSync(password.value, userData.password)) {
+        const userDB = users.find((user) => user.email === email.value);
+        console.log(password.value)
+        console.log(userDB.password)
+        console.log(bcrypt.compareSync(password.value, userDB.password))
+        let passString=toString(password.value)
+        if (userDB) {
+            if (bcrypt.compareSync(passString, userDB.password)) {
 
                 setIsSubmitted(true);
-                navigate("/")
+                sessionStorage.setItem('userId',userDB.id)
+                sessionStorage.setItem('userImage',userDB.image)
+                window.location.replace('/');
+                
             } else {
                 // Invalid password
                 setErrorMessages({ name: "password", message: errors.password });

@@ -1,5 +1,5 @@
 import React from 'react';
-import foto from '../assets/images/user.png';
+import foto from '../assets/images/avatars/user.png';
 import {Link} from 'react-router-dom';
 
 

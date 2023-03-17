@@ -50,19 +50,19 @@ function SideBar(){
 
                 {/*<!-- Nav Item - Stadistics -->*/}
                 <li className="nav-item">
-                    <Link className="nav-link" to="/chart">
+                    <Link className="nav-link" to="/">
                     <i className="fas fa-chart-bar"></i>
                         <span>Estadisticas</span></Link>
                 </li>
                  {/*<!-- Nav Item - About -->*/}
                  <li className="nav-item">
-                    <Link className="nav-link" to="/chart">
+                    <Link className="nav-link" to="/">
                     <i className="fas fa-users"></i>
                         <span>Nosotros</span></Link>
                 </li>
                     {/*<!-- Nav Item - Contact -->*/}
                     <li className="nav-item">
-                    <Link className="nav-link" to="/chart">
+                    <Link className="nav-link" to="/">
                     <i className="fas fa-comment"></i>
                         <span>Contacto</span></Link>
                 </li>

@@ -4,17 +4,19 @@ import { useParams } from 'react-router-dom';
 import Products from './Products'
 
 
+
 function ProductsList(company){
     const [products,setProducts] = useState([])
-    const { companyid } = useParams()
+    const { companyId } = useParams()
+    
     useEffect(() =>{
       
-        fetch('/api/companies/'+ companyid +'/products')
+        fetch('/api/companies/'+ companyId + '/products/')
         .then (respuesta => {
             return respuesta.json()
         })
         .then (products => {
-            
+           
             setProducts(products.data)
         })
         .catch (error => console.log(error))// busca en la base de datos con then, pero ahora lo hago manual

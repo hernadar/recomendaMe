@@ -2,10 +2,10 @@
 import React from 'react';
 
 
-
+const imagenes = require.context('../assets/images/',true)
 
 function Product({ products }) {
-    const imagen = require.context('../../../recomendaMeExpress/public/images/products', true)
+
     return (
         <>
             {products.length === 0 && <p>Cargando...</p>}
@@ -27,7 +27,7 @@ function Product({ products }) {
                                     </div>
 
                                     <div className="col-auto">
-                                        <img className="w-100" src={imagen(`./${product.image}`)} alt="Companyimage" />
+                                        <img className="w-100" src={imagenes(`./products/${product.image}`)} alt="Companyimage" />
                                         <div className='text-xs font-weight-bold text-success text-center '>{product.name}</div>
                                     </div>
                                 </div>

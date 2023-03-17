@@ -1,36 +1,46 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
+const imagenes = require.context('../assets/images/', true)
 
+function CompaniesList({ company }) {
+    const [recommendations, setRecommendations] = useState([])
+    useEffect(() => {
 
-function CompaniesList({ companies }) {
-    const imagen = require.context('../../../recomendaMeExpress/public/images/logos', true)
+        fetch('/api/companies/' + company.id + '/recommendation')
+            .then(response => response.json())
+            .then(recomendaciones => {
+                setRecommendations(recomendaciones.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+    }, [])
+
     return (
-       
-                <div div className="col-md-4 mb-4 mx-4">
-                    {companies.map(company => {
-                        return (
-                            <Link to={`/companies/${company.id}`}><div key={`${company.id} 10`} className={`card border-left-${company.color} shadow h-100 py-2`}>
-                                <div key={`${company.id} 6`} className="card-body">
-                                    <div key={`${company.id} 1`} className="row no-gutters align-items-center">
-                                        <div key={`${company.id} 2`} className="col mr}-2">
-                                            <div key={`${company.id} 3`} className={`text-xs font-weight-bold text-${company.color} text-uppercase mb-1`}>total de recomendaciones</div>
-                                            <div key={`${company.id} 4`} className="h5 mb-0 font-weight-bold text-gray-800">{company.recomendations}</div>
-                                        </div>
-                                        <div key={`${company.id} 5`} className="col-auto">
-                                            <img div key={`${company.id} 7`} className="w-75" src={imagen(`./${company.image}`)} alt="Companyimage" />
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </Link>
-                        )
-                    })}
+
+        <>
+            <div className='col'>
+                <div className=" card shadow p-1">
+
+
+
+                    <div className="">
+                        <div className='text-xs fuente '>Total de recomendaciones</div>
+                        <div className="h5 mb-0 font-weight-bold text-gray-800">{recommendations.length}</div>
+
+                        <img div className=' mb-1' width={100} height={100} src={imagenes(`./logos/${company.image}`)} alt="Companyimage" />
+
+                    </div>
                 </div>
-     
-    )
 
+
+            </div>
+
+        </>
+    )
 
 }
 

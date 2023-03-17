@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom"
-
+import bcrypt from "bcryptjs-react";
 
 function Register() {
 
@@ -35,9 +35,9 @@ function Register() {
 
         if (!userData) {
                 if(password.value===passwordConfirm.value) {
-                    var password=password.value
-                    if(password.length>7){
-                        console.log(privileges.value)
+                    
+                    if(password.value.length>7){
+                        var password=password.value
                         if(privileges.value=="2") {
                             var privileges_id=2
                         } else { var privileges_id=1}
@@ -47,15 +47,16 @@ function Register() {
                         var apellido=lastname.value;
                         var telefono=phone.value;
                         var correo=email.value;
-                        var contrasena=password.value
+                        var passString=toString(password.value)
                     
                     formData.append('name',nombre);
                     formData.append('lastname',apellido);
                     formData.append('phone',telefono);
                     formData.append('email',correo);
-                    formData.append('password',contrasena);
+                    formData.append('password',bcrypt.hashSync(passString,10));
                     formData.append('image',fileField);
                     formData.append('privileges_id',privileges_id);
+                    
                     fetch('/api/users/register',{
                         method:'POST',
                         body: formData
@@ -70,7 +71,7 @@ function Register() {
 
 
                         setIsSubmitted(true);
-                        navigate("/")}
+                        navigate("/users/login")}
                     else{
                         setErrorMessages({ name: "largopass", message: errors.largopass });
                     }

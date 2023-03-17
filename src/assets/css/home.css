@@ -1,6 +1,9 @@
 
 .explicaciones{
     width: 60%;
+    
+}
+.fuente {
     font-family: 'TiltNeon';
 }
 @font-face {
